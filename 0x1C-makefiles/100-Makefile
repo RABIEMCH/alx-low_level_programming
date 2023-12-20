@@ -1,0 +1,34 @@
+CC = gcc
+SRC = $(wildcard *.c)
+OBJ = $(SRC:.c=.o)
+NAME = school
+CFLAGS = -Wall -Werror -Wextra -pedantic
+RM = /bin/rm -f
+
+all: $(NAME)
+
+$(NAME): $(OBJ)
+	$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
+
+$(OBJ): %.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+.PHONY: all clean oclean fclean re
+
+clean:
+	$(RM) $(OBJ) $(NAME)
+
+oclean:
+	$(RM) $(OBJ)
+
+fclean: clean
+	$(RM) $(NAME)
+
+re: fclean all
+
+ifndef HEADER_EXISTS
+HEADER_EXISTS := $(wildcard m.h)
+ifeq (,$(HEADER_EXISTS))
+$(error "m.h not found!")
+endif
+endif
